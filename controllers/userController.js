@@ -30,19 +30,27 @@ const signUp = async (req, res, next) => {
         });
         const saveUser = await user.save();
         if (saveUser) {
-          req.flash('message', 'User Create Successfull');
+          req.session.message = {
+            'success': 'User created successfully'
+          };
           req.app.set('type', 'error');
           res.redirect('/')
         } else {
-          req.flash('error', 'Invalid Input');
+          req.session.message = {
+            'error': 'Invalid input'
+          };
           res.redirect('/signup')
         }
       } else {
-        req.flash('error', 'Password Mismatched');
+        req.session.message = {
+          'error': 'Passwod Mismatched'
+        };
         res.redirect('/signup')
       }
     } else {
-      req.flash('error', 'User Already Exists');
+      req.session.message = {
+        'error': 'User Already Exists'
+      };
       res.redirect('/signup')
     }
   } catch (error) {
